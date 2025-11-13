@@ -1,0 +1,843 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft YaHei', 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* 添加动态背景粒子效果 */
+body::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+    animation: floatBackground 20s ease-in-out infinite;
+    z-index: 0;
+}
+
+@keyframes floatBackground {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(-50px, -50px) rotate(5deg); }
+}
+
+#game-container {
+    position: relative;
+    width: 600px;
+    height: 900px;
+    background: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.15) 100%);
+    border-radius: 30px;
+    box-shadow: 
+        0 30px 90px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+        0 10px 30px rgba(255, 255, 255, 0.1) inset;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    z-index: 1;
+}
+
+/* 游戏标题 */
+#game-header {
+    background: linear-gradient(135deg, 
+        rgba(102, 126, 234, 0.9) 0%, 
+        rgba(118, 75, 162, 0.9) 100%);
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+#game-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: headerShine 3s ease-in-out infinite;
+}
+
+@keyframes headerShine {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(10%, 10%); }
+}
+
+#game-header h1 {
+    color: white;
+    font-size: 32px;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(255, 255, 255, 0.3);
+    margin: 0;
+    position: relative;
+    z-index: 1;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+/* 游戏状态 */
+#game-status {
+    position: absolute;
+    top: 90px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 20px;
+    background: linear-gradient(180deg,
+        rgba(0, 0, 0, 0.4) 0%,
+        rgba(0, 0, 0, 0.2) 100%);
+    backdrop-filter: blur(10px);
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#game-status > div {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 
+        1px 1px 3px rgba(0, 0, 0, 0.7),
+        0 0 10px rgba(255, 255, 255, 0.3);
+    padding: 8px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 游戏画布 */
+#gameCanvas {
+    position: absolute;
+    top: 145px;
+    left: 0;
+    width: 100%;
+    height: 555px;
+    background: linear-gradient(180deg, 
+        #1a1a3e 0%, 
+        #16213e 50%,
+        #0f1624 100%);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5) inset;
+}
+
+/* 红色警戒线 - 更炫酷的效果 */
+.red-line {
+    position: absolute;
+    top: 565px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        #ff0000 10%,
+        #ff4444 50%,
+        #ff0000 90%, 
+        transparent 100%);
+    box-shadow: 
+        0 0 20px rgba(255, 0, 0, 1),
+        0 0 40px rgba(255, 0, 0, 0.6),
+        0 0 60px rgba(255, 0, 0, 0.3);
+    animation: dangerPulse 1.5s ease-in-out infinite;
+    z-index: 5;
+}
+
+.red-line::before {
+    content: '⚠️ 危险线 ⚠️';
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ff4444;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+    animation: warningBlink 1s ease-in-out infinite;
+}
+
+@keyframes dangerPulse {
+    0%, 100% { 
+        opacity: 0.6;
+        height: 4px;
+    }
+    50% { 
+        opacity: 1;
+        height: 5px;
+    }
+}
+
+@keyframes warningBlink {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+/* 当前汉字显示 - 更精致 */
+#current-character-display {
+    position: absolute;
+    top: 715px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(240, 240, 255, 0.95) 100%);
+    padding: 20px 40px;
+    border-radius: 25px;
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        0 0 0 3px rgba(102, 126, 234, 0.3),
+        0 0 30px rgba(102, 126, 234, 0.2) inset;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 10;
+    border: 2px solid rgba(102, 126, 234, 0.5);
+}
+
+#current-character-display .label {
+    font-size: 18px;
+    color: #555;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+#current-character-display .character-display {
+    font-size: 48px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    min-width: 60px;
+    text-align: center;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    animation: characterPulse 2s ease-in-out infinite;
+}
+
+@keyframes characterPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* 射击控制按钮 - 3D效果 */
+#shooter-controls {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 25px;
+    z-index: 10;
+}
+
+.control-button {
+    background: linear-gradient(145deg, #3498db, #2980b9);
+    border: none;
+    color: white;
+    padding: 18px 30px;
+    font-size: 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 
+        0 8px 25px rgba(52, 152, 219, 0.4),
+        0 0 0 2px rgba(255, 255, 255, 0.2),
+        0 4px 0 rgba(41, 128, 185, 0.8) inset;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 90px;
+    position: relative;
+    overflow: hidden;
+}
+
+.control-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.3), 
+        transparent);
+    transition: left 0.5s;
+}
+
+.control-button:hover::before {
+    left: 100%;
+}
+
+.control-button:hover {
+    background: linear-gradient(145deg, #2980b9, #3498db);
+    transform: translateY(-5px);
+    box-shadow: 
+        0 12px 30px rgba(52, 152, 219, 0.6),
+        0 0 0 3px rgba(255, 255, 255, 0.3),
+        0 6px 0 rgba(41, 128, 185, 1) inset;
+}
+
+.control-button:active {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 20px rgba(52, 152, 219, 0.5),
+        0 0 0 2px rgba(255, 255, 255, 0.2),
+        0 2px 0 rgba(41, 128, 185, 0.8) inset;
+}
+
+.control-button.shoot {
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    box-shadow: 
+        0 8px 25px rgba(231, 76, 60, 0.4),
+        0 0 0 2px rgba(255, 255, 255, 0.2),
+        0 4px 0 rgba(192, 57, 43, 0.8) inset;
+    min-width: 110px;
+    animation: shootButtonPulse 2s ease-in-out infinite;
+}
+
+@keyframes shootButtonPulse {
+    0%, 100% { 
+        box-shadow: 
+            0 8px 25px rgba(231, 76, 60, 0.4),
+            0 0 0 2px rgba(255, 255, 255, 0.2),
+            0 4px 0 rgba(192, 57, 43, 0.8) inset;
+    }
+    50% { 
+        box-shadow: 
+            0 8px 30px rgba(231, 76, 60, 0.6),
+            0 0 0 3px rgba(255, 255, 255, 0.4),
+            0 4px 0 rgba(192, 57, 43, 1) inset;
+    }
+}
+
+.control-button.shoot:hover {
+    background: linear-gradient(145deg, #c0392b, #e74c3c);
+    box-shadow: 
+        0 12px 30px rgba(231, 76, 60, 0.6),
+        0 0 0 3px rgba(255, 255, 255, 0.3),
+        0 6px 0 rgba(192, 57, 43, 1) inset;
+}
+
+.control-button .arrow {
+    font-size: 28px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.control-button .icon {
+    font-size: 32px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.control-button .label {
+    font-size: 15px;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* 游戏面板通用样式 */
+.panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg,
+        rgba(0, 0, 0, 0.95) 0%,
+        rgba(20, 20, 40, 0.95) 100%);
+    padding: 50px;
+    border-radius: 30px;
+    text-align: center;
+    color: white;
+    z-index: 100;
+    min-width: 450px;
+    box-shadow: 
+        0 30px 90px rgba(0, 0, 0, 0.6),
+        0 0 0 2px rgba(102, 126, 234, 0.5),
+        0 0 50px rgba(102, 126, 234, 0.3) inset;
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.panel h2, .panel h3 {
+    margin-bottom: 25px;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
+}
+
+.panel h2 {
+    font-size: 42px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.panel h3 {
+    font-size: 28px;
+}
+
+.panel ul {
+    list-style: none;
+    padding: 0;
+    margin: 25px 0;
+    text-align: left;
+}
+
+.panel ul li {
+    padding: 15px;
+    margin: 10px 0;
+    background: linear-gradient(135deg,
+        rgba(102, 126, 234, 0.2) 0%,
+        rgba(118, 75, 162, 0.2) 100%);
+    border-radius: 12px;
+    font-size: 18px;
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    transition: all 0.3s;
+}
+
+.panel ul li:hover {
+    background: linear-gradient(135deg,
+        rgba(102, 126, 234, 0.3) 0%,
+        rgba(118, 75, 162, 0.3) 100%);
+    transform: translateX(5px);
+}
+
+/* 按钮样式 */
+.action-button {
+    background: linear-gradient(145deg, #27ae60, #229954);
+    color: white;
+    border: none;
+    padding: 18px 45px;
+    font-size: 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    margin: 12px;
+    transition: all 0.3s;
+    box-shadow: 
+        0 6px 20px rgba(39, 174, 96, 0.4),
+        0 0 0 2px rgba(255, 255, 255, 0.2),
+        0 4px 0 rgba(34, 153, 84, 0.8) inset;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+}
+
+.action-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.3), 
+        transparent);
+    transition: left 0.5s;
+}
+
+.action-button:hover::before {
+    left: 100%;
+}
+
+.action-button:hover {
+    background: linear-gradient(145deg, #229954, #27ae60);
+    transform: translateY(-3px);
+    box-shadow: 
+        0 8px 25px rgba(39, 174, 96, 0.6),
+        0 0 0 3px rgba(255, 255, 255, 0.3),
+        0 6px 0 rgba(34, 153, 84, 1) inset;
+}
+
+.action-button.secondary {
+    background: linear-gradient(145deg, #95a5a6, #7f8c8d);
+    box-shadow: 
+        0 6px 20px rgba(149, 165, 166, 0.4),
+        0 0 0 2px rgba(255, 255, 255, 0.2),
+        0 4px 0 rgba(127, 140, 141, 0.8) inset;
+}
+
+.action-button.secondary:hover {
+    background: linear-gradient(145deg, #7f8c8d, #95a5a6);
+    box-shadow: 
+        0 8px 25px rgba(149, 165, 166, 0.6),
+        0 0 0 3px rgba(255, 255, 255, 0.3),
+        0 6px 0 rgba(127, 140, 141, 1) inset;
+}
+
+/* 分数和统计 */
+#final-score, #final-stats, #level-stats {
+    font-size: 22px;
+    margin: 25px 0;
+    padding: 20px;
+    background: linear-gradient(135deg,
+        rgba(102, 126, 234, 0.2) 0%,
+        rgba(118, 75, 162, 0.2) 100%);
+    border-radius: 15px;
+    border: 2px solid rgba(102, 126, 234, 0.4);
+}
+
+/* 全屏覆盖层样式（在游戏容器外面，覆盖整个屏幕） */
+.full-screen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg,
+        rgba(0, 0, 0, 0.97) 0%,
+        rgba(20, 20, 40, 0.97) 100%);
+    z-index: 9999; /* 最高层级，覆盖所有内容 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(20px);
+    overflow-y: auto;
+}
+
+/* 面板内容容器 */
+.panel-content {
+    max-width: 700px;
+    width: 90%;
+    padding: 50px;
+    background: linear-gradient(135deg,
+        rgba(30, 30, 60, 0.95) 0%,
+        rgba(40, 40, 80, 0.95) 100%);
+    border-radius: 30px;
+    box-shadow: 
+        0 30px 90px rgba(0, 0, 0, 0.8),
+        0 0 0 2px rgba(102, 126, 234, 0.5),
+        0 0 50px rgba(102, 126, 234, 0.3) inset;
+    color: white;
+    text-align: center;
+}
+
+#game-rules .panel-content {
+    cursor: pointer;
+}
+
+#start-screen .panel-content {
+    cursor: default;
+}
+
+#game-rules h2,
+#start-screen h2 {
+    font-size: 52px;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 0 25px rgba(102, 126, 234, 0.8));
+}
+
+#game-rules h3 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #fff;
+    text-shadow: 0 0 15px rgba(102, 126, 234, 0.6);
+}
+
+/* 规则列表样式 */
+.rules-list {
+    list-style: none;
+    padding: 0;
+    margin: 30px auto;
+    text-align: left;
+}
+
+.rules-list li {
+    padding: 18px 25px;
+    margin: 15px 0;
+    background: linear-gradient(135deg,
+        rgba(102, 126, 234, 0.25) 0%,
+        rgba(118, 75, 162, 0.25) 100%);
+    border-radius: 15px;
+    font-size: 20px;
+    line-height: 1.6;
+    border: 2px solid rgba(102, 126, 234, 0.4);
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.rules-list li:hover {
+    background: linear-gradient(135deg,
+        rgba(102, 126, 234, 0.4) 0%,
+        rgba(118, 75, 162, 0.4) 100%);
+    transform: translateX(8px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* 关卡预览 */
+.level-preview {
+    margin: 40px auto 30px;
+    padding: 30px;
+    background: linear-gradient(135deg,
+        rgba(102, 126, 234, 0.2) 0%,
+        rgba(118, 75, 162, 0.2) 100%);
+    border-radius: 20px;
+    border: 2px solid rgba(102, 126, 234, 0.5);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.level-preview h4 {
+    margin-bottom: 25px;
+    font-size: 26px;
+    color: #fff;
+    text-shadow: 0 0 15px rgba(102, 126, 234, 0.8);
+}
+
+.level-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.level-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 25px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    transition: all 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.level-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(8px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.level-badge {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 20px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+    flex-shrink: 0;
+}
+
+.level-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 点击提示 */
+.click-hint {
+    margin-top: 50px;
+    padding: 20px;
+    animation: pulseHint 1.5s ease-in-out infinite;
+}
+
+.hint-text {
+    font-size: 26px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 
+        0 0 20px rgba(102, 126, 234, 1),
+        0 0 40px rgba(102, 126, 234, 0.6);
+    letter-spacing: 2px;
+}
+
+@keyframes pulseHint {
+    0%, 100% {
+        opacity: 0.8;
+        transform: scale(1) translateY(0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.08) translateY(-5px);
+    }
+}
+
+/* 开始游戏画面样式 */
+#start-screen .panel-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+
+.game-title {
+    font-size: 56px;
+    margin-bottom: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleGlow 2s ease-in-out infinite;
+    letter-spacing: 3px;
+    font-weight: 900;
+}
+
+@keyframes titleGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 25px rgba(102, 126, 234, 0.7));
+    }
+    50% {
+        filter: drop-shadow(0 0 40px rgba(102, 126, 234, 1));
+    }
+}
+
+.game-icon {
+    font-size: 100px;
+    animation: iconBounce 2s ease-in-out infinite;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+}
+
+@keyframes iconBounce {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-25px) scale(1.05);
+    }
+}
+
+.game-subtitle {
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    letter-spacing: 1px;
+}
+
+/* 大型开始按钮 */
+.start-button-large {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 28px 70px;
+    font-size: 30px;
+    background: linear-gradient(145deg, #27ae60, #229954);
+    border-radius: 20px;
+    box-shadow: 
+        0 12px 35px rgba(39, 174, 96, 0.6),
+        0 0 0 3px rgba(255, 255, 255, 0.25),
+        0 8px 0 rgba(34, 153, 84, 0.9) inset;
+    animation: buttonPulse 2s ease-in-out infinite;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+@keyframes buttonPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 
+            0 12px 35px rgba(39, 174, 96, 0.6),
+            0 0 0 3px rgba(255, 255, 255, 0.25),
+            0 8px 0 rgba(34, 153, 84, 0.9) inset;
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 
+            0 15px 40px rgba(39, 174, 96, 0.8),
+            0 0 0 4px rgba(255, 255, 255, 0.35),
+            0 8px 0 rgba(34, 153, 84, 1) inset;
+    }
+}
+
+.start-button-large:hover {
+    animation: none;
+    transform: scale(1.1) translateY(-3px);
+    box-shadow: 
+        0 18px 45px rgba(39, 174, 96, 0.9),
+        0 0 0 5px rgba(255, 255, 255, 0.4),
+        0 10px 0 rgba(34, 153, 84, 1) inset;
+}
+
+.button-icon {
+    font-size: 36px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.button-text {
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+/* 快速提示 */
+.quick-tips {
+    margin-top: 30px;
+    padding: 25px 35px;
+    background: linear-gradient(135deg,
+        rgba(102, 126, 234, 0.2) 0%,
+        rgba(118, 75, 162, 0.2) 100%);
+    border-radius: 15px;
+    border: 2px solid rgba(102, 126, 234, 0.4);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.quick-tips p {
+    margin: 10px 0;
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.quick-tips p:first-child {
+    font-weight: bold;
+    font-size: 20px;
+    color: #fff;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(102, 126, 234, 0.8);
+}
+
+/* 淡入缩放动画 */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 滚动条美化 */
+.full-screen-overlay::-webkit-scrollbar {
+    width: 12px;
+}
+
+.full-screen-overlay::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+}
+
+.full-screen-overlay::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 6px;
+}
+
+.full-screen-overlay::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
