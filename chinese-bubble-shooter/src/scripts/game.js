@@ -58,7 +58,7 @@ class Game {
         const startScreenElement = document.getElementById('start-screen');
         
         if (rulesElement) {
-            rulesElement.style.display = 'block';
+            rulesElement.style.display = 'flex';
             
             // 点击任意位置进入开始画面
             rulesElement.addEventListener('click', () => {
@@ -79,8 +79,8 @@ class Game {
         const startScreenElement = document.getElementById('start-screen');
         
         if (startScreenElement) {
-            startScreenElement.style.display = 'block';
-            
+            startScreenElement.style.display = 'flex';
+
             // 添加进入动画
             startScreenElement.style.animation = 'fadeInScale 0.5s ease-out';
         }
