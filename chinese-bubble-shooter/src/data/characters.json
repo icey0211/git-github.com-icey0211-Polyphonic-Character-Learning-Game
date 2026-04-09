@@ -1188,34 +1188,13 @@
       "level": 100,
       "theme": "常用多音字九十二",
       "characters": [
-        { "character": "芯", "pinyin": ["xīn", "xìn"] },
-        { "character": "媛", "pinyin": ["yuàn", "yuán"] },
-        { "character": "铅", "pinyin": ["qiān", "yán"] },
-        { "character": "蔓", "pinyin": ["màn", "wàn", "mán"] },
-        { "character": "缉", "pinyin": ["jī", "qī"] },
-        { "character": "沮", "pinyin": ["jǔ", "jù"] }
-      ]
-    },
-    {
-      "level": 101,
-      "theme": "常用多音字九十三",
-      "characters": [
-        { "character": "凹", "pinyin": ["āo", "wā"] },
-        { "character": "浚", "pinyin": ["jùn", "xùn"] },
-        { "character": "伺", "pinyin": ["sì", "cì"] },
-        { "character": "砌", "pinyin": ["qì", "qiè"] },
-        { "character": "攒", "pinyin": ["zǎn", "cuán"] },
-        { "character": "暧", "pinyin": ["ài", "ǎi"] }
-      ]
-    },
-    {
-      "level": 102,
-      "theme": "常用多音字九十四",
-      "characters": [
-        { "character": "倔", "pinyin": ["jué", "juè"] },
-        { "character": "矜", "pinyin": ["jīn", "qín", "guān"] },
-        { "character": "瀑", "pinyin": ["pù", "bào"] }
+      { "character": "芯", "pinyin": ["xīn", "xìn"] },
+      { "character": "媛", "pinyin": ["yuàn", "yuán"] },
+      { "character": "铅", "pinyin": ["qiān", "yán"] },
+      { "character": "蔓", "pinyin": ["màn", "wàn", "mán"] },
+      { "character": "缉", "pinyin": ["jī", "qī"] },
+      { "character": "沮", "pinyin": ["jǔ", "jù"] }
       ]
     }
-  ]
-}
+    ]
+  }
