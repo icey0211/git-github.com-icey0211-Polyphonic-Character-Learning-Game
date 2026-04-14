@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多音字泡泡射击 - Chinese Bubble Shooter</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <!-- 第一步：游戏规则面板（在游戏容器外面，覆盖整个屏幕） -->
+    <div id="game-rules" class="full-screen-overlay">
+        <div class="panel-content">
+            <h2>多音字泡泡射击 🎯</h2>
+            <h3>游戏规则</h3>
+            <ul class="rules-list">
+                <li>🎯 用汉字泡泡射击对应的拼音泡泡</li>
+                <li>🎮 使用左右按钮调整角度，发射按钮射击</li>
+                <li>✅ 匹配正确得 10 分</li>
+                <li>❌ 匹配错误扣 1 条生命，泡泡会下降</li>
+                <li>💔 生命值耗尽游戏结束</li>
+                <li>⚠️ 不要让泡泡触碰红线！</li>
+                <li>⭐ 达到 50 分进入下一关</li>
+                <li>🏆 共100个关卡，5大模块难度逐级提升</li>
+            </ul>
+            <div class="level-preview">
+                <h4>📚 关卡预览</h4>
+                <div class="level-list">
+                    <div class="level-item" data-start-level="1">
+                        <span class="level-badge">I</span>
+                        <span class="level-name">基础多音字</span>
+                        <span class="level-range">第 1-20 关</span>
+                    </div>
+                    <div class="level-item" data-start-level="21">
+                        <span class="level-badge">II</span>
+                        <span class="level-name">进阶多音字</span>
+                        <span class="level-range">第 21-40 关</span>
+                    </div>
+                    <div class="level-item" data-start-level="41">
+                        <span class="level-badge">III</span>
+                        <span class="level-name">高级多音字</span>
+                        <span class="level-range">第 41-60 关</span>
+                    </div>
+                    <div class="level-item" data-start-level="61">
+                        <span class="level-badge">IV</span>
+                        <span class="level-name">挑战多音字</span>
+                        <span class="level-range">第 61-80 关</span>
+                    </div>
+                    <div class="level-item" data-start-level="81">
+                        <span class="level-badge">V</span>
+                        <span class="level-name">终极多音字</span>
+                        <span class="level-range">第 81-100 关</span>
+                    </div>
+                </div>
+            </div>
+            <div class="click-hint">
+                <p class="hint-text">👆 点击上方模块选择关卡</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第二步：开始游戏面板（在游戏容器外面） -->
+    <div id="start-screen" class="full-screen-overlay" style="display: none;">
+        <div class="panel-content">
+            <h2 class="game-title">多音字泡泡射击</h2>
+            <div class="game-icon">🎯🫧</div>
+            <p class="game-subtitle">准备好挑战你的拼音知识了吗？</p>
+            <button id="start-button" class="action-button start-button-large">
+                <span class="button-icon">🚀</span>
+                <span class="button-text">开始游戏</span>
+            </button>
+            <div class="quick-tips">
+                <p>💡 快速提示</p>
+                <p>键盘 ← → 调整角度 | 空格键发射</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="game-container">
+        <!-- 游戏标题 -->
+        <div id="game-header">
+            <h1>多音字泡泡射击 🎯</h1>
+        </div>
+
+        <!-- 游戏状态信息 -->
+        <div id="game-status">
+            <div id="score">分数: 0</div>
+            <div id="level">关卡: 1</div>
+            <div id="lives">生命: ❤️❤️❤️</div>
+        </div>
+
+        <!-- 游戏画布 -->
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- 红色警戒线 -->
+        <div class="red-line"></div>
+
+        <!-- 当前射击的汉字显示 -->
+        <div id="current-character-display">
+            <span class="label">当前汉字:</span>
+            <span id="current-character" class="character-display">?</span>
+        </div>
+
+        <!-- 射击控制按钮 -->
+        <div id="shooter-controls">
+            <button id="left-button" class="control-button">
+                <span class="arrow">⬅️</span>
+                <span class="label">左转</span>
+            </button>
+            <button id="refresh-button" class="control-button refresh">
+                <span class="icon">🔄</span>
+                <span class="label">换字</span>
+            </button>
+            <button id="shoot-button" class="control-button shoot">
+                <span class="icon">🎯</span>
+                <span class="label">发射</span>
+            </button>
+            <button id="right-button" class="control-button">
+                <span class="arrow">➡️</span>
+                <span class="label">右转</span>
+            </button>
+        </div>
+
+        <!-- 游戏结束面板 -->
+        <div id="game-over" class="panel" style="display: none;">
+            <h2>游戏结束! 💔</h2>
+            <div id="final-score">最终分数: 0</div>
+            <div id="final-stats">
+                <p>完成关卡: 0</p>
+            </div>
+            <button id="restart-button" class="action-button">重新开始</button>
+            <button id="menu-button" class="action-button secondary">返回菜单</button>
+        </div>
+
+        <!-- 关卡完成面板 -->
+        <div id="level-complete" class="panel" style="display: none;">
+        </div>
+    </div>
+
+    <!-- 游戏脚本 (使用 ES6 模块) -->
+    <script type="module" src="scripts/game.js"></script>
+</body>
+</html>

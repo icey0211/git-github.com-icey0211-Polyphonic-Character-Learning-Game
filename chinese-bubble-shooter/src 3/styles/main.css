@@ -305,6 +305,18 @@ body::before {
         0 2px 0 rgba(41, 128, 185, 0.8) inset;
 }
 
+.control-button.refresh {
+    background: linear-gradient(145deg, #f39c12, #e67e22);
+    box-shadow:
+        0 8px 25px rgba(243, 156, 18, 0.4),
+        0 0 0 2px rgba(255, 255, 255, 0.2),
+        0 4px 0 rgba(230, 126, 34, 0.8) inset;
+}
+
+.control-button.refresh:hover {
+    background: linear-gradient(145deg, #e67e22, #f39c12);
+}
+
 .control-button.shoot {
     background: linear-gradient(145deg, #e74c3c, #c0392b);
     box-shadow: 
@@ -625,10 +637,18 @@ body::before {
     border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
+.level-item[data-start-level] {
+    cursor: pointer;
+}
+
 .level-item:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: translateX(8px);
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.level-item:active {
+    transform: translateX(4px) scale(0.98);
 }
 
 .level-badge {
@@ -650,6 +670,13 @@ body::before {
     font-weight: 600;
     color: #fff;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    flex: 1;
+}
+
+.level-range {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 400;
 }
 
 /* 点击提示 */

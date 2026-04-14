@@ -35,6 +35,7 @@ class Game {
         this.allLevels = [];
         this.currentCharacter = null;
         this.currentLevelTheme = '';
+        this.moduleStartLevel = 1; // 当前模块起始关卡
         
         this.bubbleRadius = 30;
         this.redLineY = 400;
@@ -51,43 +52,75 @@ class Game {
         console.log('✅ 初始化完成');
     }
 
-    // 新增：显示游戏规则（第一步）
+    // 第一步：显示开始游戏画面
     showGameRules() {
-        console.log('📖 显示游戏规则');
+        console.log('🎮 显示开始游戏画面（第一步）');
         const rulesElement = document.getElementById('game-rules');
         const startScreenElement = document.getElementById('start-screen');
-        
+
+        // 先隐藏规则面板
         if (rulesElement) {
-            rulesElement.style.display = 'flex';
-            
-            // 点击任意位置进入开始画面
-            rulesElement.addEventListener('click', () => {
-                console.log('👆 规则面板被点击，进入开始画面');
-                rulesElement.style.display = 'none';
-                this.showStartScreen();
-            });
+            rulesElement.style.display = 'none';
         }
-        
-        if (startScreenElement) {
-            startScreenElement.style.display = 'none';
-        }
-    }
-    
-    // 新增：显示开始游戏画面（第二步）
-    showStartScreen() {
-        console.log('🎮 显示开始游戏画面');
-        const startScreenElement = document.getElementById('start-screen');
-        
+
+        // 显示开始画面
         if (startScreenElement) {
             startScreenElement.style.display = 'flex';
-
-            // 添加进入动画
             startScreenElement.style.animation = 'fadeInScale 0.5s ease-out';
+        }
+    }
+
+    // 第二步：显示游戏规则（点击开始后显示）
+    showStartScreen() {
+        console.log('📖 显示游戏规则（第二步）');
+        const rulesElement = document.getElementById('game-rules');
+
+        if (rulesElement) {
+            // 清除旧的事件监听器（克隆节点替换）
+            const newRules = rulesElement.cloneNode(true);
+            rulesElement.parentNode.replaceChild(newRules, rulesElement);
+
+            newRules.style.display = 'flex';
+            newRules.style.animation = 'fadeInScale 0.5s ease-out';
+
+            // 点击模块选择关卡范围开始游戏
+            const levelItems = newRules.querySelectorAll('.level-item[data-start-level]');
+            levelItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const startLevel = parseInt(item.getAttribute('data-start-level'));
+                    console.log('🎯 选择模块，从第', startLevel, '关开始');
+                    this.level = startLevel;
+                    this.moduleStartLevel = startLevel;
+                    newRules.style.display = 'none';
+                    this.startGame();
+                });
+            });
+
+            // 点击其他区域默认从第1关开始
+            newRules.addEventListener('click', (e) => {
+                if (!e.target.closest('.level-item[data-start-level]')) {
+                    console.log('👆 规则面板被点击，从第1关开始');
+                    this.level = 1;
+                    this.moduleStartLevel = 1;
+                    newRules.style.display = 'none';
+                    this.startGame();
+                }
+            });
         }
     }
 
     async loadCharacters() {
         console.log('📚 开始加载字符数据...');
+
+        // 优先使用内嵌的 CHARACTERS_DATA（支持 file:// 直接打开）
+        if (typeof CHARACTERS_DATA !== 'undefined' && CHARACTERS_DATA.levels) {
+            this.allLevels = CHARACTERS_DATA.levels;
+            this.loadLevelCharacters(this.level);
+            console.log('✅ 使用内嵌数据加载成功:', this.allLevels.length, '个关卡');
+            return;
+        }
+
         try {
             const response = await fetch('data/characters.json');
             console.log('Fetch 响应:', response);
@@ -177,12 +210,12 @@ class Game {
             
             newButton.addEventListener('click', () => {
                 console.log('🎮 ========== 开始游戏按钮被点击！==========');
-                // 隐藏开始画面
+                // 隐藏开始画面，显示规则
                 const startScreenElement = document.getElementById('start-screen');
                 if (startScreenElement) {
                     startScreenElement.style.display = 'none';
                 }
-                this.startGame();
+                this.showStartScreen();
             });
             console.log('✅ 开始按钮事件已绑定');
         }
@@ -209,6 +242,17 @@ class Game {
             });
         }
         
+        // 换字按钮
+        const refreshButton = document.getElementById('refresh-button');
+        if (refreshButton) {
+            refreshButton.addEventListener('click', () => {
+                if (!this.isPaused && this.isGameStarted && this.shooterBubble && !this.shooterBubble.isMoving) {
+                    console.log('🔄 换字！');
+                    this.spawnShooterBubble();
+                }
+            });
+        }
+
         // 发射按钮
         const shootButton = document.getElementById('shoot-button');
         if (shootButton) {
@@ -239,13 +283,16 @@ class Game {
 
     startGame() {
         console.log('🎮 ========== startGame() 开始执行 ==========');
-        
+
         this.isGameOver = false;
         this.isGameStarted = true;
         this.lives = 3;
-        
+        this.score = 0;
+
         this.updateLivesDisplay();
-        
+        document.getElementById('score').textContent = `分数: 0`;
+        document.getElementById('level').textContent = `关卡: ${this.level}`;
+
         console.log('开始加载关卡字符...');
         this.loadLevelCharacters(this.level);
         
@@ -449,7 +496,7 @@ class Game {
             '铺': '#D35400', '曲': '#16A085', '塞': '#C0392B',
             '散': '#F39C12', '省': '#2C3E50'
         };
-        return colors[char] || '#' + Math.floor(Math.random()*16777215).toString(16);
+        return colors[char] || '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
     }
 
     levelComplete() {
@@ -467,7 +514,7 @@ class Game {
                     <p>主题: ${this.currentLevelTheme || '基础多音字'}</p>
                     <p>本关得分: ${currentLevelScore}</p>
                     <p>下一关: ${this.level} - ${this.currentLevelTheme}</p>
-                    <p>目标分数: ${this.level * 50}</p>
+                    <p>目标分数: ${(this.level - this.moduleStartLevel + 1) * 50}</p>
                 </div>
                 <button id="next-level-button-temp" class="action-button">进入下一关 →</button>
             `;
@@ -548,8 +595,9 @@ class Game {
                 document.getElementById('score').textContent = `分数: ${this.score}`;
                 console.log('✅ 匹配正确！得分 +10');
                 
-                // 检查是否达到关卡目标分数
-                if (this.score >= this.level * 50) {
+                // 检查是否达到关卡目标分数（相对于模块起始关计算）
+                const levelInModule = this.level - this.moduleStartLevel + 1;
+                if (this.score >= levelInModule * 50) {
                     console.log('🎉 达到目标分数，关卡完成！');
                     this.levelComplete();
                     return;
@@ -837,14 +885,14 @@ class Game {
         this.shooterQueue = [];
         this.missEffects = [];
         this.score = 0;
-        this.level = 1;
+        this.level = this.moduleStartLevel;
         this.lives = 3;
         this.isGameOver = false;
         this.isGameStarted = false;
         this.angle = -90;
-        this.loadLevelCharacters(1);
+        this.loadLevelCharacters(this.level);
         document.getElementById('score').textContent = `分数: 0`;
-        document.getElementById('level').textContent = `关卡: 1`;
+        document.getElementById('level').textContent = `关卡: ${this.level}`;
         this.updateLivesDisplay();
         document.getElementById('game-over').style.display = 'none';
         const levelCompleteElement = document.getElementById('level-complete');
@@ -908,7 +956,7 @@ class Game {
             document.getElementById('menu-button-temp').addEventListener('click', () => {
                 gameOverElement.style.display = 'none';
                 this.restart();
-                this.showStartScreen(); // 返回开始画面
+                this.showGameRules(); // 返回开始画面
             });
         }
     }

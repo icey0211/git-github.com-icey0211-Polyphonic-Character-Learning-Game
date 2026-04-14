@@ -1,0 +1,1201 @@
+const CHARACTERS_DATA = {
+  "levels": [
+    {
+      "level": 1,
+      "theme": "基础多音字",
+      "characters": [
+        { "character": "给", "pinyin": ["gěi", "jǐ"] },
+        { "character": "行", "pinyin": ["xíng", "háng"] },
+        { "character": "重", "pinyin": ["zhòng", "chóng"] },
+        { "character": "好", "pinyin": ["hǎo", "hào"] },
+        { "character": "发", "pinyin": ["fā", "fà"] },
+        { "character": "相", "pinyin": ["xiāng", "xiàng"] }
+      ]
+    },
+    {
+      "level": 2,
+      "theme": "进阶多音字",
+      "characters": [
+        { "character": "长", "pinyin": ["cháng", "zhǎng"] },
+        { "character": "难", "pinyin": ["nán", "nàn"] },
+        { "character": "乐", "pinyin": ["lè", "yuè"] },
+        { "character": "还", "pinyin": ["hái", "huán"] },
+        { "character": "看", "pinyin": ["kàn", "kān"] },
+        { "character": "当", "pinyin": ["dāng", "dàng"] }
+      ]
+    },
+    {
+      "level": 3,
+      "theme": "高级多音字",
+      "characters": [
+        { "character": "调", "pinyin": ["tiáo", "diào"] },
+        { "character": "背", "pinyin": ["bèi", "bēi"] },
+        { "character": "便", "pinyin": ["biàn", "pián"] },
+        { "character": "处", "pinyin": ["chù", "chǔ"] },
+        { "character": "传", "pinyin": ["chuán", "zhuàn"] },
+        { "character": "弹", "pinyin": ["dàn", "tán"] }
+      ]
+    },
+    {
+      "level": 4,
+      "theme": "挑战多音字",
+      "characters": [
+        { "character": "更", "pinyin": ["gèng", "gēng"] },
+        { "character": "号", "pinyin": ["hào", "háo"] },
+        { "character": "间", "pinyin": ["jiān", "jiàn"] },
+        { "character": "觉", "pinyin": ["jué", "jiào"] },
+        { "character": "降", "pinyin": ["jiàng", "xiáng"] },
+        { "character": "劲", "pinyin": ["jìn", "jìng"] }
+      ]
+    },
+    {
+      "level": 5,
+      "theme": "终极多音字",
+      "characters": [
+        { "character": "落", "pinyin": ["luò", "lào", "là"] },
+        { "character": "没", "pinyin": ["méi", "mò"] },
+        { "character": "蒙", "pinyin": ["mēng", "méng", "měng"] },
+        { "character": "泊", "pinyin": ["bó", "pō"] },
+        { "character": "铺", "pinyin": ["pū", "pù"] },
+        { "character": "曲", "pinyin": ["qū", "qǔ"] }
+      ]
+    },
+    {
+      "level": 6,
+      "theme": "校园多音字",
+      "characters": [
+        { "character": "假", "pinyin": ["jiǎ", "jià"] },
+        { "character": "校", "pinyin": ["xiào", "jiāo"] },
+        { "character": "干", "pinyin": ["gān", "gàn"] },
+        { "character": "系", "pinyin": ["xì", "jì"] },
+        { "character": "数", "pinyin": ["shù", "shǔ"] },
+        { "character": "解", "pinyin": ["jiě", "xiè", "jiè"] }
+      ]
+    },
+    {
+      "level": 7,
+      "theme": "文学多音字",
+      "characters": [
+        { "character": "着", "pinyin": ["zhe", "zháo", "zhuó", "zhāo"] },
+        { "character": "胜", "pinyin": ["shèng", "shēng"] },
+        { "character": "曾", "pinyin": ["céng", "zēng"] },
+        { "character": "仍", "pinyin": ["réng", "rēng"] },
+        { "character": "拆", "pinyin": ["chāi", "cài"] },
+        { "character": "弯", "pinyin": ["wān", "wàn"] }
+      ]
+    },
+    {
+      "level": 8,
+      "theme": "生活多音字",
+      "characters": [
+        { "character": "藏", "pinyin": ["cáng", "zàng"] },
+        { "character": "薄", "pinyin": ["báo", "bó", "bò"] },
+        { "character": "重", "pinyin": ["zhòng", "chóng"] },
+        { "character": "淡", "pinyin": ["dàn", "dān"] },
+        { "character": "将", "pinyin": ["jiāng", "jiàng"] },
+        { "character": "胡", "pinyin": ["hú", "hù"] }
+      ]
+    },
+    {
+      "level": 9,
+      "theme": "常用多音字一",
+      "characters": [
+        { "character": "的", "pinyin": ["dí", "dì", "de"] },
+        { "character": "不", "pinyin": ["bù", "fǒu"] },
+        { "character": "了", "pinyin": ["liǎo", "le"] },
+        { "character": "有", "pinyin": ["yǒu", "yòu"] },
+        { "character": "这", "pinyin": ["zhè", "zhèi"] },
+        { "character": "个", "pinyin": ["gè", "gě"] }
+      ]
+    },
+    {
+      "level": 10,
+      "theme": "常用多音字二",
+      "characters": [
+        { "character": "上", "pinyin": ["shàng", "shǎng"] },
+        { "character": "她", "pinyin": ["tā", "jiě"] },
+        { "character": "大", "pinyin": ["dà", "dài", "tài"] },
+        { "character": "中", "pinyin": ["zhōng", "zhòng"] },
+        { "character": "说", "pinyin": ["shuō", "shuì", "yuè"] },
+        { "character": "为", "pinyin": ["wéi", "wèi"] }
+      ]
+    },
+    {
+      "level": 11,
+      "theme": "常用多音字三",
+      "characters": [
+        { "character": "着", "pinyin": ["zhuó", "zháo", "zhāo", "zhe"] },
+        { "character": "得", "pinyin": ["dé", "děi", "de"] },
+        { "character": "要", "pinyin": ["yào", "yāo"] },
+        { "character": "地", "pinyin": ["dì", "de"] },
+        { "character": "那", "pinyin": ["nà", "nǎ", "nèi", "nā"] },
+        { "character": "和", "pinyin": ["hé", "hè", "huó", "huò", "hú"] }
+      ]
+    },
+    {
+      "level": 12,
+      "theme": "常用多音字四",
+      "characters": [
+        { "character": "可", "pinyin": ["kě", "kè"] },
+        { "character": "会", "pinyin": ["huì", "kuài"] },
+        { "character": "过", "pinyin": ["guò", "guo", "guō"] },
+        { "character": "么", "pinyin": ["mó", "ma", "me", "yāo"] },
+        { "character": "好", "pinyin": ["hǎo", "hào"] },
+        { "character": "看", "pinyin": ["kàn", "kān"] }
+      ]
+    },
+    {
+      "level": 13,
+      "theme": "常用多音字五",
+      "characters": [
+        { "character": "家", "pinyin": ["jiā", "jia", "jie"] },
+        { "character": "能", "pinyin": ["néng", "nài"] },
+        { "character": "没", "pinyin": ["méi", "mò"] },
+        { "character": "只", "pinyin": ["zhī", "zhǐ"] },
+        { "character": "还", "pinyin": ["huán", "hái"] },
+        { "character": "发", "pinyin": ["fā", "fà"] }
+      ]
+    },
+    {
+      "level": 14,
+      "theme": "常用多音字六",
+      "characters": [
+        { "character": "行", "pinyin": ["háng", "xíng"] },
+        { "character": "见", "pinyin": ["jiàn", "xiàn"] },
+        { "character": "都", "pinyin": ["dū", "dōu"] },
+        { "character": "知", "pinyin": ["zhī", "zhì"] },
+        { "character": "头", "pinyin": ["tóu", "tou"] },
+        { "character": "分", "pinyin": ["fēn", "fèn"] }
+      ]
+    },
+    {
+      "level": 15,
+      "theme": "常用多音字七",
+      "characters": [
+        { "character": "把", "pinyin": ["bǎ", "bà"] },
+        { "character": "当", "pinyin": ["dāng", "dàng"] },
+        { "character": "同", "pinyin": ["tóng", "tòng"] },
+        { "character": "其", "pinyin": ["qí", "jī"] },
+        { "character": "与", "pinyin": ["yǔ", "yù", "yú"] },
+        { "character": "从", "pinyin": ["cóng", "zòng"] }
+      ]
+    },
+    {
+      "level": 16,
+      "theme": "常用多音字八",
+      "characters": [
+        { "character": "什", "pinyin": ["shí", "shén"] },
+        { "character": "些", "pinyin": ["xiē", "suò"] },
+        { "character": "将", "pinyin": ["jiāng", "jiàng"] },
+        { "character": "长", "pinyin": ["cháng", "zhǎng"] },
+        { "character": "女", "pinyin": ["nǚ", "rǔ"] },
+        { "character": "间", "pinyin": ["jiān", "jiàn"] }
+      ]
+    },
+    {
+      "level": 17,
+      "theme": "常用多音字九",
+      "characters": [
+        { "character": "种", "pinyin": ["zhǒng", "zhòng", "chóng"] },
+        { "character": "相", "pinyin": ["xiāng", "xiàng"] },
+        { "character": "正", "pinyin": ["zhèng", "zhēng"] },
+        { "character": "数", "pinyin": ["shù", "shǔ", "shuò"] },
+        { "character": "信", "pinyin": ["xìn", "shēn"] },
+        { "character": "系", "pinyin": ["xì", "jì"] }
+      ]
+    },
+    {
+      "level": 18,
+      "theme": "常用多音字十",
+      "characters": [
+        { "character": "应", "pinyin": ["yīng", "yìng"] },
+        { "character": "何", "pinyin": ["hé", "hē", "hè"] },
+        { "character": "便", "pinyin": ["biàn", "pián"] },
+        { "character": "重", "pinyin": ["zhòng", "chóng"] },
+        { "character": "给", "pinyin": ["gěi", "jǐ"] },
+        { "character": "并", "pinyin": ["bìng", "bīng"] }
+      ]
+    },
+    {
+      "level": 19,
+      "theme": "常用多音字十一",
+      "characters": [
+        { "character": "打", "pinyin": ["dǎ", "dá"] },
+        { "character": "处", "pinyin": ["chǔ", "chù"] },
+        { "character": "几", "pinyin": ["jǐ", "jī"] },
+       { "character": "累", "pinyin": ["lèi", "lěi", "léi"] },
+       { "character": "省", "pinyin": ["shěng", "xǐng"] },
+       { "character": "倒", "pinyin": ["dào", "dǎo"] }
+      ]
+    },
+    {
+      "level": 20,
+      "theme": "常用多音字十二",
+      "characters": [
+        { "character": "别", "pinyin": ["bié", "biè"] },
+        { "character": "少", "pinyin": ["shǎo", "shào"] },
+        { "character": "体", "pinyin": ["tǐ", "tī"] },
+        { "character": "化", "pinyin": ["huà", "huā"] },
+        { "character": "提", "pinyin": ["tí", "dī", "dǐ"] },
+        { "character": "更", "pinyin": ["gēng", "gèng"] }
+      ]
+    },
+    {
+      "level": 21,
+      "theme": "常用多音字十三",
+      "characters": [
+        { "character": "教", "pinyin": ["jiào", "jiāo"] },
+        { "character": "各", "pinyin": ["gè", "gě"] },
+        { "character": "思", "pinyin": ["sī", "sāi"] },
+        { "character": "服", "pinyin": ["fú", "fù"] },
+        { "character": "若", "pinyin": ["ruò", "rě"] },
+        { "character": "吗", "pinyin": ["má", "mǎ", "ma"] }
+      ]
+    },
+    {
+      "level": 22,
+      "theme": "常用多音字十四",
+      "characters": [
+        { "character": "强", "pinyin": ["qiáng", "qiǎng", "jiàng"] },
+        { "character": "干", "pinyin": ["gān", "gàn"] },
+        { "character": "吧", "pinyin": ["bā", "ba"] },
+        { "character": "模", "pinyin": ["mó", "mú"] },
+        { "character": "令", "pinyin": ["líng", "lǐng", "lìng"] },
+        { "character": "华", "pinyin": ["huá", "huà", "huā"] }
+      ]
+    },
+    {
+      "level": 23,
+      "theme": "常用多音字十五",
+      "characters": [
+        { "character": "识", "pinyin": ["shí", "zhì"] },
+        { "character": "区", "pinyin": ["qū", "ōu"] },
+        { "character": "单", "pinyin": ["dān", "shàn", "chán"] },
+        { "character": "被", "pinyin": ["bèi", "pī"] },
+        { "character": "合", "pinyin": ["hé", "gě"] },
+        { "character": "夫", "pinyin": ["fū", "fú"] }
+      ]
+    },
+    {
+      "level": 24,
+      "theme": "常用多音字十六",
+      "characters": [
+        { "character": "据", "pinyin": ["jù", "jū"] },
+        { "character": "解", "pinyin": ["jiě", "jiè", "xiè"] },
+        { "character": "亲", "pinyin": ["qīn", "qìng"] },
+        { "character": "度", "pinyin": ["dù", "duó"] },
+        { "character": "语", "pinyin": ["yǔ", "yù"] },
+        { "character": "呢", "pinyin": ["ní", "ne"] }
+      ]
+    },
+    {
+      "level": 25,
+      "theme": "常用多音字十七",
+      "characters": [
+        { "character": "场", "pinyin": ["cháng", "chǎng"] },
+        { "character": "量", "pinyin": ["liáng", "liàng"] },
+        { "character": "似", "pinyin": ["sì", "shì"] },
+        { "character": "论", "pinyin": ["lùn", "lún"] },
+        { "character": "条", "pinyin": ["tiáo", "tiāo"] },
+        { "character": "南", "pinyin": ["nán", "nā"] }
+      ]
+    },
+    {
+      "level": 26,
+      "theme": "常用多音字十八",
+      "characters": [
+        { "character": "空", "pinyin": ["kōng", "kòng", "kǒng"] },
+        { "character": "术", "pinyin": ["shù", "shú", "zhú"] },
+        { "character": "父", "pinyin": ["fù", "fǔ"] },
+        { "character": "期", "pinyin": ["qī", "jī"] },
+        { "character": "切", "pinyin": ["qiē", "qiè"] },
+        { "character": "调", "pinyin": ["tiáo", "diào", "zhōu"] }
+      ]
+    },
+    {
+      "level": 27,
+      "theme": "常用多音字十九",
+      "characters": [
+        { "character": "结", "pinyin": ["jié", "jiē"] },
+        { "character": "内", "pinyin": ["nèi", "nà"] },
+        { "character": "王", "pinyin": ["wáng", "wàng"] },
+        { "character": "觉", "pinyin": ["jué", "jiào"] },
+        { "character": "难", "pinyin": ["nán", "nàn", "nuó"] },
+        { "character": "风", "pinyin": ["fēng", "fěng"] }
+      ]
+    },
+    {
+      "level": 28,
+      "theme": "常用多音字二十",
+      "characters": [
+        { "character": "任", "pinyin": ["rèn", "rén"] },
+        { "character": "许", "pinyin": ["xǔ", "hǔ"] },
+        { "character": "且", "pinyin": ["qiě", "jū"] },
+        { "character": "万", "pinyin": ["wàn", "mò"] },
+        { "character": "转", "pinyin": ["zhuǎn", "zhuàn", "zhuǎi"] },
+        { "character": "车", "pinyin": ["chē", "jū"] }
+      ]
+    },
+    {
+      "level": 29,
+      "theme": "常用多音字二十一",
+      "characters": [
+        { "character": "传", "pinyin": ["chuán", "zhuàn"] },
+        { "character": "员", "pinyin": ["yuán", "yún", "yùn"] },
+        { "character": "北", "pinyin": ["běi", "bèi"] },
+        { "character": "远", "pinyin": ["yuǎn", "yuàn"] },
+        { "character": "拉", "pinyin": ["lā", "lá"] },
+        { "character": "红", "pinyin": ["hóng", "gōng"] }
+      ]
+    },
+    {
+      "level": 30,
+      "theme": "常用多音字二十二",
+      "characters": [
+        { "character": "倒", "pinyin": ["dǎo", "dào"] },
+        { "character": "落", "pinyin": ["là", "luò", "lào"] },
+        { "character": "石", "pinyin": ["shí", "dàn"] },
+        { "character": "空", "pinyin": ["kōng", "kòng"] },
+        { "character": "塞", "pinyin": ["sāi", "sài", "sè"] },
+        { "character": "散", "pinyin": ["sàn", "sǎn"] }
+  ]
+},
+{
+  "level": 31,
+      "theme": "常用多音字二十三",
+      "characters": [
+        { "character": "弟", "pinyin": ["dì", "tì", "tuí"] },
+        { "character": "济", "pinyin": ["jì", "jǐ"] },
+        { "character": "句", "pinyin": ["jù", "gōu"] },
+        { "character": "尽", "pinyin": ["jìn", "jǐn"] },
+        { "character": "答", "pinyin": ["dá", "dā"] },
+        { "character": "奇", "pinyin": ["qí", "jī"] }
+      ]
+    },
+    {
+      "level": 32,
+      "theme": "常用多音字二十四",
+      "characters": [
+        { "character": "台", "pinyin": ["tái", "tāi"] },
+        { "character": "兴", "pinyin": ["xīng", "xìng"] },
+        { "character": "共", "pinyin": ["gòng", "gōng"] },
+        { "character": "乐", "pinyin": ["lè", "yuè", "yào", "lào"] },
+        { "character": "曾", "pinyin": ["zēng", "céng"] },
+        { "character": "约", "pinyin": ["yuē", "yāo"] }
+      ]
+    },
+    {
+      "level": 33,
+      "theme": "常用多音字二十五",
+      "characters": [
+        { "character": "甚", "pinyin": ["shèn", "shén"] },
+        { "character": "待", "pinyin": ["dài", "dāi"] },
+        { "character": "观", "pinyin": ["guān", "guàn"] },
+        { "character": "六", "pinyin": ["liù", "lù"] },
+        { "character": "片", "pinyin": ["piàn", "piān"] },
+        { "character": "研", "pinyin": ["yán", "yàn"] }
+      ]
+    },
+    {
+      "level": 34,
+      "theme": "常用多音字二十六",
+      "characters": [
+        { "character": "节", "pinyin": ["jié", "jiē"] },
+        { "character": "阿", "pinyin": ["ā", "ē"] },
+        { "character": "哪", "pinyin": ["nǎ", "něi", "na", "né"] },
+        { "character": "查", "pinyin": ["chá", "zhā"] },
+        { "character": "委", "pinyin": ["wěi", "wēi"] },
+        { "character": "广", "pinyin": ["guǎng", "ān"] }
+      ]
+    },
+    {
+      "level": 35,
+      "theme": "常用多音字二十七",
+      "characters": [
+        { "character": "参", "pinyin": ["cān", "shēn", "cēn", "sān"] },
+        { "character": "朝", "pinyin": ["zhāo", "cháo"] },
+        { "character": "称", "pinyin": ["chēng", "chèn", "chèng"] },
+        { "character": "底", "pinyin": ["dǐ", "de"] },
+        { "character": "号", "pinyin": ["hào", "háo"] },
+        { "character": "啊", "pinyin": ["ā", "á", "ǎ", "à", "a"] }
+      ]
+    },
+    {
+      "level": 36,
+      "theme": "常用多音字二十八",
+      "characters": [
+        { "character": "采", "pinyin": ["cǎi", "cài"] },
+        { "character": "差", "pinyin": ["chà", "chā", "chāi", "cī"] },
+        { "character": "省", "pinyin": ["shěng", "xǐng"] },
+        { "character": "假", "pinyin": ["jiǎ", "jià"] },
+        { "character": "喝", "pinyin": ["hē", "hè", "yè"] },
+        { "character": "莫", "pinyin": ["mò", "mù"] }
+      ]
+    },
+    {
+      "level": 37,
+      "theme": "常用多音字二十九",
+      "characters": [
+        { "character": "纪", "pinyin": ["jì", "jǐ"] },
+        { "character": "丽", "pinyin": ["lì", "lí"] },
+        { "character": "角", "pinyin": ["jiǎo", "jué"] },
+        { "character": "否", "pinyin": ["fǒu", "pǐ"] },
+        { "character": "冲", "pinyin": ["chōng", "chòng"] },
+        { "character": "背", "pinyin": ["bèi", "bēi"] }
+      ]
+    },
+    {
+      "level": 38,
+      "theme": "常用多音字三十",
+      "characters": [
+        { "character": "血", "pinyin": ["xiě", "xuè"] },
+        { "character": "旁", "pinyin": ["páng", "bàng"] },
+        { "character": "齐", "pinyin": ["qí", "jì", "zǐ", "zhāi"] },
+        { "character": "罢", "pinyin": ["bà", "ba", "pí"] },
+        { "character": "疑", "pinyin": ["yí", "nǐ"] },
+        { "character": "供", "pinyin": ["gōng", "gòng"] }
+      ]
+    },
+    {
+      "level": 39,
+      "theme": "常用多音字三十一",
+      "characters": [
+        { "character": "县", "pinyin": ["xiàn", "xuán"] },
+        { "character": "率", "pinyin": ["shuài", "lǜ"] },
+        { "character": "恶", "pinyin": ["è", "wù", "ě", "wū"] },
+        { "character": "速", "pinyin": ["sù", "dòu"] },
+        { "character": "价", "pinyin": ["jià", "jiè", "jie"] },
+        { "character": "雨", "pinyin": ["yǔ", "yù"] }
+      ]
+    },
+    {
+      "level": 40,
+      "theme": "常用多音字三十二",
+      "characters": [
+        { "character": "属", "pinyin": ["shǔ", "zhǔ"] },
+        { "character": "络", "pinyin": ["luò", "lào"] },
+        { "character": "露", "pinyin": ["lòu", "lù"] },
+        { "character": "助", "pinyin": ["zhù", "chú"] },
+        { "character": "景", "pinyin": ["jǐng", "yǐng"] },
+        { "character": "责", "pinyin": ["zé", "zhài"] }
+      ]
+    },
+    {
+      "level": 41,
+      "theme": "常用多音字三十三",
+      "characters": [
+        { "character": "伯", "pinyin": ["bó", "bǎi", "bà"] },
+        { "character": "呀", "pinyin": ["yā", "ya"] },
+        { "character": "跑", "pinyin": ["pǎo", "páo"] },
+        { "character": "哈", "pinyin": ["hā", "hǎ", "hà"] },
+        { "character": "划", "pinyin": ["huá", "huà"] },
+        { "character": "仅", "pinyin": ["jǐn", "jìn"] }
+      ]
+    },
+    {
+      "level": 42,
+      "theme": "常用多音字三十四",
+      "characters": [
+        { "character": "适", "pinyin": ["shì", "kuò"] },
+        { "character": "追", "pinyin": ["zhuī", "duī"] },
+        { "character": "校", "pinyin": ["xiào", "jiào"] },
+        { "character": "孙", "pinyin": ["sūn", "xùn"] },
+        { "character": "氏", "pinyin": ["shì", "zhī"] },
+        { "character": "散", "pinyin": ["sàn", "sǎn"] }
+      ]
+    },
+    {
+      "level": 43,
+      "theme": "常用多音字三十五",
+      "characters": [
+        { "character": "排", "pinyin": ["pái", "pǎi"] },
+        { "character": "副", "pinyin": ["fù", "pì"] },
+        { "character": "食", "pinyin": ["shí", "sì", "yì"] },
+        { "character": "佛", "pinyin": ["fó", "fú", "bì", "bó"] },
+        { "character": "跳", "pinyin": ["tiào", "táo"] },
+        { "character": "创", "pinyin": ["chuàng", "chuāng"] }
+      ]
+    },
+    {
+      "level": 44,
+      "theme": "常用多音字三十六",
+      "characters": [
+        { "character": "斗", "pinyin": ["dǒu", "dòu"] },
+        { "character": "沙", "pinyin": ["shā", "shà"] },
+        { "character": "妻", "pinyin": ["qī", "qì"] },
+        { "character": "渐", "pinyin": ["jiàn", "jiān"] },
+        { "character": "藏", "pinyin": ["cáng", "zàng"] },
+        { "character": "弄", "pinyin": ["nòng", "lòng"] }
+    ]
+  },
+  {
+    "level": 45,
+      "theme": "常用多音字三十七",
+      "characters": [
+        { "character": "咱", "pinyin": ["zán", "zá", "zā"] },
+        { "character": "织", "pinyin": ["zhī", "zhì"] },
+        { "character": "苏", "pinyin": ["sū", "sù"] },
+        { "character": "朱", "pinyin": ["zhū", "shú"] },
+        { "character": "担", "pinyin": ["dān", "dàn", "dǎn"] },
+        { "character": "楚", "pinyin": ["jǐn", "jìn"] }
+      ]
+    },
+    {
+      "level": 46,
+      "theme": "常用多音字三十八",
+      "characters": [
+        { "character": "戏", "pinyin": ["xì", "hū"] },
+        { "character": "卡", "pinyin": ["qiǎ", "kǎ"] },
+        { "character": "盖", "pinyin": ["gài", "gě", "hé"] },
+        { "character": "宁", "pinyin": ["níng", "nìng", "zhù"] },
+        { "character": "占", "pinyin": ["zhān", "zhàn"] },
+        { "character": "量", "pinyin": ["liáng", "liàng"] }
+      ]
+    },
+    {
+      "level": 47,
+      "theme": "常用多音字三十九",
+      "characters": [
+        { "character": "蒙", "pinyin": ["mēng", "méng", "měng"] },
+        { "character": "吾", "pinyin": ["wú", "yù"] },
+        { "character": "沈", "pinyin": ["shěn", "chén"] },
+        { "character": "趣", "pinyin": ["qù", "cù"] },
+        { "character": "折", "pinyin": ["zhē", "zhé", "shé"] },
+        { "character": "亡", "pinyin": ["wáng", "wú"] }
+      ]
+    },
+    {
+      "level": 48,
+      "theme": "常用多音字四十",
+      "characters": [
+        { "character": "弹", "pinyin": ["dàn", "tán"] },
+        { "character": "泽", "pinyin": ["zé", "shì"] },
+        { "character": "选", "pinyin": ["xī", "xiān"] },
+        { "character": "混", "pinyin": ["hùn", "hún"] },
+        { "character": "侯", "pinyin": ["hóu", "hòu"] },
+        { "character": "糊", "pinyin": ["hū", "hú", "hù"] }
+      ]
+    },
+    {
+      "level": 49,
+      "theme": "常用多音字四十一",
+      "characters": [
+        { "character": "勤", "pinyin": ["qín", "qí"] },
+        { "character": "毒", "pinyin": ["dú", "dài"] },
+        { "character": "曲", "pinyin": ["qū", "qǔ"] },
+        { "character": "份", "pinyin": ["fèn", "bīn"] },
+        { "character": "燕", "pinyin": ["yàn", "yān"] },
+        { "character": "压", "pinyin": ["yā", "yà"] }
+      ]
+    },
+    {
+      "level": 50,
+      "theme": "常用多音字四十二",
+      "characters": [
+        { "character": "刺", "pinyin": ["cì", "cī"] },
+        { "character": "郎", "pinyin": ["láng", "làng"] },
+        { "character": "绿", "pinyin": ["lǜ", "lù"] },
+        { "character": "舍", "pinyin": ["shě", "shè"] },
+        { "character": "卷", "pinyin": ["juàn", "juǎn"] },
+        { "character": "奥", "pinyin": ["ào", "yù"] }
+      ]
+    },
+    {
+      "level": 51,
+      "theme": "常用多音字四十三",
+      "characters": [
+        { "character": "厂", "pinyin": ["chǎng", "ān", "hàn"] },
+        { "character": "娜", "pinyin": ["nà", "nuó"] },
+        { "character": "塞", "pinyin": ["sāi", "sài", "sè"] },
+        { "character": "盛", "pinyin": ["shèng", "chéng"] },
+        { "character": "夏", "pinyin": ["xià", "hè"] },
+        { "character": "仇", "pinyin": ["chóu", "qiú"] }
+      ]
+    },
+    {
+      "level": 52,
+      "theme": "常用多音字四十四",
+      "characters": [
+        { "character": "括", "pinyin": ["kuò", "guā"] },
+        { "character": "横", "pinyin": ["héng", "hèng"] },
+        { "character": "纵", "pinyin": ["zòng", "zōng"] },
+        { "character": "臂", "pinyin": ["bì", "bei"] },
+        { "character": "冒", "pinyin": ["mào", "mò"] }
+      ]
+},
+{
+  "level": 53,
+      "theme": "常用多音字四十五",
+      "characters": [
+        { "character": "抢", "pinyin": ["qiāng", "qiǎng", "chēng"] },
+        { "character": "迫", "pinyin": ["pò", "pǎi"] },
+        { "character": "惧", "pinyin": ["jù", "jù"] },
+        { "character": "尺", "pinyin": ["chǐ", "chě"] },
+        { "character": "侧", "pinyin": ["cè", "zè", "zhāi"] },
+        { "character": "缩", "pinyin": ["suō", "sù"] }
+      ]
+    },
+    {
+      "level": 54,
+      "theme": "常用多音字四十六",
+      "characters": [
+        { "character": "票", "pinyin": ["piào", "piāo"] },
+        { "character": "瓦", "pinyin": ["wǎ", "wà"] },
+        { "character": "稍", "pinyin": ["shāo", "shào"] },
+        { "character": "核", "pinyin": ["hé", "hú"] },
+        { "character": "净", "pinyin": ["jìng", "chēng"] },
+        { "character": "枝", "pinyin": ["zhī", "qí"] }
+      ]
+    },
+    {
+      "level": 55,
+      "theme": "常用多音字四十七",
+      "characters": [
+        { "character": "凉", "pinyin": ["liáng", "liàng"] },
+        { "character": "仆", "pinyin": ["pū", "pú"] },
+        { "character": "贾", "pinyin": ["gǔ", "jiǎ"] },
+        { "character": "薄", "pinyin": ["báo", "bó", "bò"] },
+        { "character": "扫", "pinyin": ["sǎo", "sào"] },
+        { "character": "召", "pinyin": ["zhào", "shào"] }
+      ]
+    },
+    {
+      "level": 56,
+      "theme": "常用多音字四十八",
+      "characters": [
+        { "character": "予", "pinyin": ["yú", "yǔ"] },
+        { "character": "扎", "pinyin": ["zā", "zhā", "zhá"] },
+        { "character": "吐", "pinyin": ["tǔ", "tù"] },
+        { "character": "仰", "pinyin": ["yǎng", "áng"] },
+        { "character": "频", "pinyin": ["pín", "bīn"] },
+        { "character": "嘛", "pinyin": ["má", "ma"] }
+      ]
+    },
+    {
+      "level": 57,
+      "theme": "常用多音字四十九",
+      "characters": [
+        { "character": "凹", "pinyin": ["āo", "wā"] },
+        { "character": "闷", "pinyin": ["mèn", "mēn"] },
+        { "character": "拾", "pinyin": ["shí", "shè"] },
+        { "character": "艾", "pinyin": ["ài", "yì"] },
+        { "character": "俩", "pinyin": ["liǎng", "liǎ"] },
+        { "character": "磨", "pinyin": ["mó", "mò"] }
+      ]
+    },
+    {
+      "level": 58,
+      "theme": "常用多音字五十",
+      "characters": [
+        { "character": "哦", "pinyin": ["ó", "ò", "é"] },
+        { "character": "筑", "pinyin": ["zhù", "zhú"] },
+        { "character": "堡", "pinyin": ["bǎo", "bǔ", "pù"] },
+        { "character": "综", "pinyin": ["zōng", "zèng"] },
+        { "character": "哩", "pinyin": ["lǐ", "lī", "liē"] },
+        { "character": "溜", "pinyin": ["liū", "liù"] }
+      ]
+    },
+    {
+      "level": 59,
+      "theme": "常用多音字五十一",
+      "characters": [
+        { "character": "勾", "pinyin": ["gōu", "gòu"] },
+        { "character": "莎", "pinyin": ["suō", "shā"] },
+        { "character": "卜", "pinyin": ["bǔ", "bo"] },
+        { "character": "屏", "pinyin": ["píng", "bǐng"] },
+        { "character": "摄", "pinyin": ["shè", "niè"] },
+        { "character": "殷", "pinyin": ["yīn", "yān", "yǐn"] }
+      ]
+    },
+    {
+      "level": 60,
+      "theme": "常用多音字五十二",
+      "characters": [
+        { "character": "估", "pinyin": ["gū", "gù"] },
+        { "character": "哼", "pinyin": ["hēng", "hng"] },
+        { "character": "铺", "pinyin": ["pū", "pù"] },
+        { "character": "丧", "pinyin": ["sāng", "sàng"] },
+        { "character": "汪", "pinyin": ["wāng", "wǎng"] },
+        { "character": "屋", "pinyin": ["wū", "wò"] }
+      ]
+    },
+    {
+      "level": 61,
+      "theme": "常用多音字五十三",
+      "characters": [
+        { "character": "冠", "pinyin": ["guān", "guàn"] },
+        { "character": "洼", "pinyin": ["wā", "guī"] },
+        { "character": "颤", "pinyin": ["chàn", "zhàn"] },
+        { "character": "肚", "pinyin": ["dù", "dǔ"] },
+        { "character": "漂", "pinyin": ["piāo", "piǎo", "piào"] },
+        { "character": "泥", "pinyin": ["ní", "nì"] }
+      ]
+    },
+    {
+      "level": 62,
+      "theme": "常用多音字五十四",
+      "characters": [
+        { "character": "任", "pinyin": ["rèn", "rén"] },
+        { "character": "仔", "pinyin": ["zǐ", "zī", "zǎi"] },
+        { "character": "夹", "pinyin": ["jiā", "jiá", "gā"] },
+        { "character": "扇", "pinyin": ["shàn", "shān"] },
+        { "character": "通", "pinyin": ["tōng", "tòng"] },
+        { "character": "裂", "pinyin": ["liè", "liě"] }
+      ]
+    },
+    {
+      "level": 63,
+      "theme": "常用多音字五十五",
+      "characters": [
+        { "character": "柏", "pinyin": ["bǎi", "bó", "bò"] },
+        { "character": "葛", "pinyin": ["gé", "gě"] },
+        { "character": "尉", "pinyin": ["wèi", "yù"] },
+        { "character": "挡", "pinyin": ["dǎng", "dàng"] },
+        { "character": "唉", "pinyin": ["āi", "ài"] },
+        { "character": "钻", "pinyin": ["zuān", "zuàn"] }
+      ]
+    },
+    {
+      "level": 64,
+      "theme": "常用多音字五十六",
+      "characters": [
+        { "character": "圈", "pinyin": ["quān", "juàn", "juān"] },
+        { "character": "汤", "pinyin": ["tāng", "shāng", "tàng"] },
+        { "character": "旋", "pinyin": ["xuán", "xuàn"] },
+        { "character": "羊", "pinyin": ["yáng", "xiáng"] },
+        { "character": "宿", "pinyin": ["sù", "xiǔ", "xiù"] },
+        { "character": "埋", "pinyin": ["mái", "mán"] }
+      ]
+    },
+    {
+      "level": 65,
+      "theme": "常用多音字五十七",
+      "characters": [
+        { "character": "耶", "pinyin": ["yé", "yē"] },
+        { "character": "繁", "pinyin": ["fán", "pó"] },
+        { "character": "蛇", "pinyin": ["shé", "yí"] },
+        { "character": "摩", "pinyin": ["mó", "mā"] },
+        { "character": "丁", "pinyin": ["dīng", "zhēng"] },
+        { "character": "菲", "pinyin": ["fēi", "fěi"] }
+      ]
+    },
+    {
+      "level": 66,
+      "theme": "常用多音字五十八",
+      "characters": [
+        { "character": "钢", "pinyin": ["gāng", "gàng"] },
+        { "character": "挣", "pinyin": ["zhèng", "zhēng"] },
+        { "character": "晃", "pinyin": ["huǎng", "huàng"] },
+        { "character": "抹", "pinyin": ["mǒ", "mò", "mā"] },
+        { "character": "撒", "pinyin": ["sā", "sǎ"] },
+        { "character": "冯", "pinyin": ["féng", "píng"] }
+      ]
+    },
+    {
+      "level": 67,
+      "theme": "常用多音字五十九",
+      "characters": [
+        { "character": "浅", "pinyin": ["qiǎn", "jiān"] },
+        { "character": "勃", "pinyin": ["bó", "bèi"] },
+        { "character": "趋", "pinyin": ["qū", "cù"] },
+        { "character": "拓", "pinyin": ["tuò", "tà", "zhí"] },
+        { "character": "倘", "pinyin": ["tǎng", "cháng"] },
+        { "character": "猫", "pinyin": ["māo", "máo"] }
+      ]
+    },
+    {
+      "level": 68,
+      "theme": "常用多音字六十",
+      "characters": [
+        { "character": "胜", "pinyin": ["shèng", "shēng"] },
+        { "character": "祭", "pinyin": ["jì", "zhài"] },
+        { "character": "炸", "pinyin": ["zhà", "zhá"] },
+        { "character": "炮", "pinyin": ["páo", "bāo", "pào"] },
+        { "character": "柜", "pinyin": ["guì", "jǔ"] },
+        { "character": "挨", "pinyin": ["āi", "ái"] }
+      ]
+    },
+    {
+      "level": 69,
+      "theme": "常用多音字六十一",
+      "characters": [
+        { "character": "吵", "pinyin": ["chǎo", "chāo"] },
+        { "character": "脉", "pinyin": ["mài", "mò"] },
+        { "character": "缝", "pinyin": ["féng", "fèng"] },
+        { "character": "笼", "pinyin": ["lóng", "lǒng"] },
+        { "character": "嘿", "pinyin": ["hēi", "mò"] },
+        { "character": "嗯", "pinyin": ["ǹ", "ń", "ň", "g"] }
+      ]
+    },
+    {
+      "level": 70,
+      "theme": "常用多音字六十二",
+      "characters": [
+        { "character": "叉", "pinyin": ["chā", "chá", "chǎ"] },
+        { "character": "膀", "pinyin": ["bǎng", "pāng", "páng"] },
+        { "character": "臭", "pinyin": ["chòu", "xiù"] },
+        { "character": "纤", "pinyin": ["xiān", "qiàn"] },
+        { "character": "洒", "pinyin": ["sǎ", "xǐ"] },
+        { "character": "愉", "pinyin": ["yú", "tōu"] }
+      ]
+    },
+    {
+      "level": 71,
+      "theme": "常用多音字六十三",
+      "characters": [
+        { "character": "弥", "pinyin": ["mí", "mǐ"] },
+        { "character": "咽", "pinyin": ["yān", "yàn", "yè"] },
+        { "character": "敦", "pinyin": ["dūn", "duì"] },
+        { "character": "颈", "pinyin": ["jǐng", "gěng"] },
+        { "character": "泄", "pinyin": ["xiè", "yì"] },
+        { "character": "揭", "pinyin": ["jiē", "qì"] }
+      ]
+    },
+    {
+      "level": 72,
+      "theme": "常用多音字六十四",
+      "characters": [
+        { "character": "喷", "pinyin": ["pēn", "pèn"] },
+        { "character": "干", "pinyin": ["gān", "gàn"] },
+        { "character": "纹", "pinyin": ["wén", "wèn"] },
+        { "character": "卒", "pinyin": ["zú", "cù"] },
+        { "character": "劈", "pinyin": ["pī", "pǐ"] },
+        { "character": "禅", "pinyin": ["chán", "shàn"] }
+      ]
+    },
+    {
+      "level": 73,
+      "theme": "常用多音字六十五",
+      "characters": [
+        { "character": "闷", "pinyin": ["mèn", "mēn"] },
+        { "character": "煞", "pinyin": ["shā", "shà"] },
+        { "character": "岭", "pinyin": ["lǐng", "líng"] },
+        { "character": "夸", "pinyin": ["kuā", "kuà"] },
+        { "character": "刹", "pinyin": ["chà", "shā"] },
+        { "character": "拆", "pinyin": ["chāi", "cā"] }
+      ]
+    },
+    {
+      "level": 74,
+      "theme": "常用多音字六十六",
+      "characters": [
+        { "character": "彭", "pinyin": ["péng", "bāng"] },
+        { "character": "妃", "pinyin": ["fēi", "pèi"] },
+        { "character": "绷", "pinyin": ["bēng", "běng", "bèng"] },
+        { "character": "嘲", "pinyin": ["cháo", "zhāo"] },
+        { "character": "哑", "pinyin": ["yǎ", "yā"] },
+        { "character": "蔓", "pinyin": ["màn", "wàn", "mán"] }
+      ]
+    },
+    {
+      "level": 75,
+      "theme": "常用多音字六十七",
+      "characters": [
+        { "character": "宛", "pinyin": ["wǎn", "yuān"] },
+        { "character": "刷", "pinyin": ["shuā", "shuà"] },
+        { "character": "衰", "pinyin": ["shuāi", "cuī"] },
+        { "character": "晕", "pinyin": ["yūn", "yùn"] },
+        { "character": "削", "pinyin": ["xiāo", "xuē"] },
+        { "character": "棍", "pinyin": ["gùn", "hùn"] }
+      ]
+    },
+    {
+      "level": 76,
+      "theme": "常用多音字六十八",
+      "characters": [
+        { "character": "挑", "pinyin": ["tiāo", "tiǎo"] },
+        { "character": "哄", "pinyin": ["hōng", "hǒng", "hòng"] },
+        { "character": "钉", "pinyin": ["dīng", "dìng"] },
+        { "character": "朴", "pinyin": ["pǔ", "pò", "pō", "piáo"] },
+        { "character": "吁", "pinyin": ["xū", "yù"] },
+        { "character": "兹", "pinyin": ["zī", "cí"] }
+      ]
+    },
+    {
+      "level": 77,
+      "theme": "常用多音字六十九",
+      "characters": [
+        { "character": "暴", "pinyin": ["bào", "pù"] },
+        { "character": "搂", "pinyin": ["lǒu", "lōu"] },
+        { "character": "巷", "pinyin": ["xiàng", "hàng"] },
+        { "character": "契", "pinyin": ["qì", "qiè", "xiè"] },
+        { "character": "填", "pinyin": ["tián", "zhèn"] },
+        { "character": "囊", "pinyin": ["náng", "nāng"] }
+      ]
+    },
+    {
+      "level": 78,
+      "theme": "常用多音字七十",
+      "characters": [
+        { "character": "咳", "pinyin": ["ké", "hāi"] },
+        { "character": "咖", "pinyin": ["kā", "gā"] },
+        { "character": "钥", "pinyin": ["yuè", "yào"] },
+        { "character": "掘", "pinyin": ["jué", "kū"] },
+        { "character": "匍", "pinyin": ["pú", "pū"] },
+        { "character": "趟", "pinyin": ["tàng", "tāng"] }
+      ]
+    },
+    {
+      "level": 79,
+      "theme": "常用多音字七十一",
+      "characters": [
+        { "character": "爪", "pinyin": ["zhuǎ", "zhǎo"] },
+        { "character": "涨", "pinyin": ["zhǎng", "zhàng"] },
+        { "character": "辟", "pinyin": ["pì", "bì"] },
+        { "character": "疆", "pinyin": ["jiāng", "qiáng"] },
+        { "character": "畜", "pinyin": ["chù", "xù"] },
+        { "character": "泊", "pinyin": ["bó", "pō"] }
+      ]
+    },
+    {
+      "level": 80,
+      "theme": "常用多音字七十二",
+      "characters": [
+        { "character": "拘", "pinyin": ["jū", "gōu"] },
+        { "character": "哇", "pinyin": ["wā", "wa"] },
+        { "character": "冏", "pinyin": ["jiǒng", "jiōng"] },
+        { "character": "症", "pinyin": ["zhèng", "zhēng"] },
+        { "character": "泡", "pinyin": ["pào", "pāo"] },
+        { "character": "杆", "pinyin": ["gān", "gǎn"] }
+      ]
+    },
+    {
+      "level": 81,
+      "theme": "常用多音字七十三",
+      "characters": [
+        { "character": "伺", "pinyin": ["sì", "cì"] },
+        { "character": "磨", "pinyin": ["mó", "mò"] },
+        { "character": "雀", "pinyin": ["què", "qiāo", "qiǎo"] },
+    { "character": "雀", "pinyin": ["què", "qiāo", "qiǎo"] }
+  ]
+},
+{
+  "level": 82,
+      "theme": "常用多音字七十四",
+      "characters": [
+        { "character": "腊", "pinyin": ["là", "xī"] },
+        { "character": "澄", "pinyin": ["chéng", "dèng"] },
+        { "character": "淋", "pinyin": ["lín", "lìn"] },
+        { "character": "帖", "pinyin": ["tiē", "tiě", "tiè"] },
+        { "character": "嵌", "pinyin": ["qiàn", "kàn"] },
+        { "character": "坊", "pinyin": ["fāng", "fáng"] }
+      ]
+    },
+    {
+      "level": 83,
+      "theme": "常用多音字七十五",
+      "characters": [
+        { "character": "剥", "pinyin": ["bāo", "bō"] },
+        { "character": "哟", "pinyin": ["yō", "yo"] },
+        { "character": "券", "pinyin": ["quàn", "xuàn"] },
+        { "character": "俏", "pinyin": ["qiào", "xiào"] },
+        { "character": "骚", "pinyin": ["sāo", "sǎo"] },
+        { "character": "榜", "pinyin": ["bǎng", "bàng"] }
+      ]
+    },
+    {
+      "level": 84,
+      "theme": "常用多音字七十六",
+      "characters": [
+        { "character": "捻", "pinyin": ["niǎn", "niē"] },
+        { "character": "姥", "pinyin": ["mǔ", "lǎo"] },
+        { "character": "於", "pinyin": ["yú", "wū"] },
+        { "character": "撇", "pinyin": ["piē", "piě"] },
+        { "character": "匙", "pinyin": ["chí", "shi"] },
+        { "character": "龟", "pinyin": ["guī", "jūn", "qiū"] }
+      ]
+    },
+    {
+      "level": 85,
+      "theme": "常用多音字七十七",
+      "characters": [
+        { "character": "胳", "pinyin": ["gē", "gé"] },
+        { "character": "硕", "pinyin": ["shuò", "shí"] },
+        { "character": "渠", "pinyin": ["qú", "jù"] },
+        { "character": "倡", "pinyin": ["chàng", "chāng"] },
+        { "character": "苹", "pinyin": ["píng", "pēng"] },
+        { "character": "殖", "pinyin": ["zhí", "shi"] }
+      ]
+    },
+    {
+      "level": 86,
+      "theme": "常用多音字七十八",
+      "characters": [
+        { "character": "喔", "pinyin": ["ō", "wō"] },
+        { "character": "俑", "pinyin": ["yǒng", "yòng"] },
+        { "character": "藉", "pinyin": ["jiè", "jí"] },
+        { "character": "茵", "pinyin": ["yīn", "yìn"] },
+        { "character": "碌", "pinyin": ["lù", "liù"] },
+        { "character": "壳", "pinyin": ["ké", "qiào"] }
+      ]
+    },
+    {
+      "level": 87,
+      "theme": "常用多音字七十九",
+      "characters": [
+        { "character": "堕", "pinyin": ["duò", "huī"] },
+        { "character": "哗", "pinyin": ["huá", "huā"] },
+        { "character": "裂", "pinyin": ["liè", "liě"] },
+        { "character": "厦", "pinyin": ["shà", "xià"] },
+        { "character": "阙", "pinyin": ["quē", "què"] },
+        { "character": "斐", "pinyin": ["fěi", "fēi"] }
+      ]
+    },
+    {
+      "level": 88,
+      "theme": "常用多音字八十",
+      "characters": [
+        { "character": "挟", "pinyin": ["xié", "jiā"] },
+        { "character": "扁", "pinyin": ["biǎn", "piān"] },
+        { "character": "呐", "pinyin": ["nà", "nè"] },
+        { "character": "亨", "pinyin": ["hēng", "pēng"] },
+        { "character": "熬", "pinyin": ["āo", "áo"] },
+        { "character": "幢", "pinyin": ["chuáng", "zhuàng"] }
+      ]
+    },
+    {
+      "level": 89,
+      "theme": "常用多音字八十一",
+      "characters": [
+        { "character": "逮", "pinyin": ["dài", "dǎi"] },
+        { "character": "绰", "pinyin": ["chuò", "chāo"] },
+        { "character": "簿", "pinyin": ["bù", "bó"] },
+        { "character": "眯", "pinyin": ["mī", "mí"] },
+        { "character": "楷", "pinyin": ["kǎi", "jiē"] },
+        { "character": "叨", "pinyin": ["dāo", "tāo"] }
+      ]
+    },
+    {
+      "level": 90,
+      "theme": "常用多音字八十二",
+      "characters": [
+        { "character": "轴", "pinyin": ["zhóu", "zhòu"] },
+        { "character": "褚", "pinyin": ["zhǔ", "chǔ"] },
+        { "character": "缴", "pinyin": ["jiǎo", "zhuó"] },
+        { "character": "粘", "pinyin": ["nián", "zhān"] },
+        { "character": "渍", "pinyin": ["zì", "kuì"] },
+        { "character": "淳", "pinyin": ["chún", "zhūn"] }
+      ]
+    },
+    {
+      "level": 91,
+      "theme": "常用多音字八十三",
+      "characters": [
+        { "character": "仿", "pinyin": ["fǎng", "páng"] },
+        { "character": "绷", "pinyin": ["bēng", "běng", "bèng"] },
+        { "character": "匠", "pinyin": ["jiàng", "jiāng"] },
+        { "character": "栖", "pinyin": ["qī", "xī"] },
+        { "character": "嚼", "pinyin": ["jiáo", "jué", "jiào"] },
+        { "character": "咯", "pinyin": ["kǎ", "luò", "lo", "gē"] }
+      ]
+    },
+    {
+      "level": 92,
+      "theme": "常用多音字八十四",
+      "characters": [
+        { "character": "呕", "pinyin": ["ǒu", "ōu", "òu"] },
+        { "character": "觑", "pinyin": ["qù", "qū"] },
+        { "character": "膏", "pinyin": ["gāo", "gào"] },
+        { "character": "缪", "pinyin": ["móu", "miù", "miào", "mù", "liáo"] },
+        { "character": "撩", "pinyin": ["liāo", "liáo"] },
+        { "character": "嘘", "pinyin": ["xū", "shī"] }
+      ]
+    },
+    {
+      "level": 93,
+      "theme": "常用多音字八十五",
+      "characters": [
+        { "character": "栅", "pinyin": ["zhà", "shān", "shi", "cè"] },
+        { "character": "兑", "pinyin": ["duì", "ruì", "yuè"] },
+        { "character": "竺", "pinyin": ["zhú", "dǔ"] },
+        { "character": "鞘", "pinyin": ["qiào", "shāo"] },
+        { "character": "跟", "pinyin": ["gēn", "gèn"] },
+        { "character": "苔", "pinyin": ["tái", "tāi"] }
+      ]
+    },
+    {
+      "level": 94,
+      "theme": "常用多音字八十六",
+      "characters": [
+        { "character": "矫", "pinyin": ["jiǎo", "jiáo"] },
+        { "character": "拧", "pinyin": ["níng", "nǐng", "nìng"] },
+        { "character": "虾", "pinyin": ["xiā", "hā"] },
+        { "character": "恁", "pinyin": ["nèn", "nín"] },
+        { "character": "褪", "pinyin": ["tuì", "tùn"] },
+        { "character": "淌", "pinyin": ["tǎng", "chǎng"] }
+      ]
+    },
+    {
+      "level": 95,
+      "theme": "常用多音字八十七",
+      "characters": [
+        { "character": "擂", "pinyin": ["léi", "lèi"] },
+        { "character": "吭", "pinyin": ["háng", "kēng"] },
+        { "character": "苛", "pinyin": ["kē", "hē"] },
+        { "character": "瞿", "pinyin": ["qú", "jù"] },
+        { "character": "熏", "pinyin": ["xūn", "xùn"] },
+        { "character": "屯", "pinyin": ["tún", "zhūn"] }
+      ]
+    },
+    {
+      "level": 96,
+      "theme": "常用多音字八十八",
+      "characters": [
+        { "character": "粥", "pinyin": ["zhōu", "yù"] },
+        { "character": "揣", "pinyin": ["chuāi", "chuǎi", "chuài"] },
+        { "character": "晤", "pinyin": ["wù", "wú"] },
+        { "character": "谄", "pinyin": ["chǎn", "chàn"] },
+        { "character": "尿", "pinyin": ["niào", "suī"] },
+        { "character": "随", "pinyin": ["suí", "duò"] }
+      ]
+    },
+    {
+      "level": 97,
+      "theme": "常用多音字八十九",
+      "characters": [
+        { "character": "跄", "pinyin": ["qiāng", "qiàng"] },
+        { "character": "翘", "pinyin": ["qiáo", "qiào"] },
+        { "character": "甸", "pinyin": ["diàn", "tián", "shèng"] },
+        { "character": "嘎", "pinyin": ["gā", "gá", "gǎ"] },
+        { "character": "琢", "pinyin": ["zhuó", "zuó"] },
+        { "character": "姗", "pinyin": ["shān", "shàn"] }
+      ]
+    },
+    {
+      "level": 98,
+      "theme": "常用多音字九十",
+      "characters": [
+        { "character": "菌", "pinyin": ["jūn", "jùn"] },
+        { "character": "槛", "pinyin": ["jiàn", "kǎn"] },
+        { "character": "忒", "pinyin": ["tè", "tuī", "tēi"] },
+        { "character": "吒", "pinyin": ["zhà", "zhā"] },
+        { "character": "肋", "pinyin": ["lèi", "lē"] },
+        { "character": "皋", "pinyin": ["gāo", "háo"] }
+      ]
+    },
+    {
+      "level": 99,
+      "theme": "常用多音字九十一",
+      "characters": [
+        { "character": "筠", "pinyin": ["yún", "jūn"] },
+        { "character": "溅", "pinyin": ["jiàn", "jiān"] },
+        { "character": "喽", "pinyin": ["lóu", "lou"] },
+        { "character": "溺", "pinyin": ["nì", "niào"] },
+        { "character": "扛", "pinyin": ["káng", "gāng"] },
+        { "character": "歧", "pinyin": ["qí", "zhī"] }
+      ]
+    },
+    {
+      "level": 100,
+      "theme": "常用多音字九十二",
+      "characters": [
+      { "character": "芯", "pinyin": ["xīn", "xìn"] },
+      { "character": "媛", "pinyin": ["yuàn", "yuán"] },
+      { "character": "铅", "pinyin": ["qiān", "yán"] },
+      { "character": "蔓", "pinyin": ["màn", "wàn", "mán"] },
+      { "character": "缉", "pinyin": ["jī", "qī"] },
+      { "character": "沮", "pinyin": ["jǔ", "jù"] }
+      ]
+    }
+    ]
+  };

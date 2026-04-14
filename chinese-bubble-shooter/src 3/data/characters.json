@@ -971,6 +971,7 @@
 },
 {
   "level": 82,
+      "theme": "常用多音字七十四",
       "characters": [
         { "character": "腊", "pinyin": ["là", "xī"] },
         { "character": "澄", "pinyin": ["chéng", "dèng"] },
